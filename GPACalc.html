@@ -8,91 +8,52 @@
   <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
   <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
 </head>
 
-<!--Top nav bar-->
-<ul class="nav">
-  <li>
-    <form method="post" action="GPACalc.html">
-      <button class="active" type="submit">GPA Calculation</button>
-    </form>
-  </li>
-  <li>
-    <form method="post" action="GradeCalc.html">
-      <button type="submit">Grade Calculation</button>
-    </form>
-  </li>
-  <li>
-    <form method="post" action="GradeDistri.html">
-      <button type="submit">Grade Distribution</button>
-    </form>
-  </li>
-  <li>
-    <form method="post" action="MyGrades.html">
-      <button type="submit">My Grades</button>
-    </form>
-  </li>
-</ul>
+<body>
+
+<div class="applicationWrapper">
+  <input class="close" name="user" type="image" src="media/user.jpg">
+  <!--Top nav bar-->
+  <ul class="nav">
+    <li>
+      <button class="active" onclick="location.href='GPACalc.html';">GPA Calculation</button>
+    </li>
+    <li>
+      <button onclick="location.href='GradeCalc.html';">Grade Calculation</button>
+    </li>
+    <li>
+      <button onclick="location.href='GradeDistri.html';">Grade Distribution</button>
+    </li>
+    <li>
+      <button onclick="location.href='MyGrades.html';">My Grades</button>
+    </li>
+  </ul>
+
 
 <!--logo div-->
 <div class="logo">
   <img src="media/logo.png" alt="logo">
 </div>
-
-
+<div class="container">
 <div class="overallDisplay">
   <!--displays your overall gpa/major gpa -->
-  <div class="leftGPA" name="GPA">overall gpa: </div>
-  <div class="rightGPA" name="majorGPA">overall major gpa: </div>
+  <div class="leftGPA" name="wrapGPA">Overall GPA: <div name="GPA">N/a</div></div>
+  <div class="rightGPA" name="wrapmajorGPA">Overall Major GPA: <div name="majorGPA">N/a</div></div>
   <!--displays your overall gpa/major gpa -->
   <button class="button" name="addSemester">Add Semester</button>
+  <button class="button" name="saveData">Save Data</button>
 </div>
 
 <div class="semesterList">
-
-  <!--This will be a div that gets duplicated and 
+<!---This will be a div that gets duplicated and
   removed as semesters get added or removed dynamically
   -->
-  <div class="semester" name="semester-1">
-    <div class="semesterName">Semester Name
-      <input type="text" name="semesterName-1">
-      <button type="submit" class="deleteSemester" name="1">Delete</button>
-    </div>
-    <div>
-      <table class="classList-1">
 
-        <!--Heading for the course list table for this semester-->
-        <tr>
-          <th>Major?</th>
-          <th>Course Name</th>
-          <th>Grade</th>
-          <th>Credit #</th>
-          <th>GPA</th>
-          <th>Delete</th>
-        </tr>
 
-        <!--This will be a div that gets duplicated and removed as classes get added or removed dynamically-->
-        <tr name="course-1-1">
-          <td><input type="checkbox" name="major-1-1" value="major"></td>
-          <td><input type="text" name="courseName-1-1"></td>
-          <td><input type="text" name="courseGrade-1-1"></td>
-          <td><input type="text" name="creditNumber-1-1"></td>
-          <td><div name="GPAOutput-1-1">-.--</div></td>
-          <td><button type="submit" class="deleteCourse" semester="1" course="1">Delete</button></td>
-        </tr>
-
-        <!--Here is where other courses would get added -->
-      </table>
-
-      <div class="overallDisplay">
-        <!--output divs for major and normal gpa for this semester-->
-        <div class="leftGPA" name="GPA-1">gpa: </div>
-        <div class="rightGPA" name="majorGPA-1">major gpa: </div>
-        <!--button to add course to this semester-->
-        <button class="button addCourse" name="1">Add course</button>
-      </div>
-    </div>
-  </div>
+</div>
 </div>
 <script src="js/GPACalc.js"></script>
+</body>
 </html>
