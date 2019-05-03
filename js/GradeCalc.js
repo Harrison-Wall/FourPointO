@@ -11,10 +11,10 @@ function addCategory() {
 
     var emptyCategroy = 
     "<tr class=\"category\" name=cat-"+ catCount +"\">" +
-        "<td><input type=\"text\" name=\"catName-" + catCount + "\"></td>" +
-        "<td><input type=\"text\" class=\"weight\" name=\"catWeight-" + catCount + "\"></td>" +
-        "<td><input type=\"text\" class=\"avg\" name=\"catAvg-" + catCount + "\"></td>" +
-        "<td><button class=\"deletebtn deleteCat\" type=\"submit\" class=\"deleteCat\" category=\"" + catCount + "\">Delete</button></td>" +
+        "<td><input type=\"text\" name=\"catName-" + catCount + "\"  size='35' placeholder='Catagory Name'</td>" +
+        "<td><input type=\"text\" class=\"weight\" name=\"catWeight-" + catCount + "\" size='5'  placeholder='Weight'></td>" +
+        "<td><input type=\"text\" class=\"avg\" name=\"catAvg-" + catCount + "\" size='5' placeholder='Average'></td>" +
+        '<td><input class="deletebtn deleteCat" category=\"" + catCount + "\" type="image" src="media/delete.png"></td>' +
     "</tr>";
 
     $(".categoryList").append( emptyCategroy );
@@ -91,7 +91,8 @@ function deleteCategory() {
         // Assume grade will be 100
         if( currAvg == "" )
         {
-            currAvg = 100;
+            isValid = false;
+            break;
         }
 
         currWeight = parseFloat( currWeight );
@@ -129,16 +130,9 @@ function deleteCategory() {
     }
 	
     // Check weight adds up to 100
-    if(totalWeight == 100) {
-        $('div[name=currentGrade]').html((grade/totalWeight*100).toFixed(2)+'%');
-    } else {
-        $('div[name=currentGrade]').html(grade.toFixed(2)+'/'+totalWeight.toFixed(2));
-        isValid = false;
-        errorMessage = "Error: Weight total does not add up to 100. ";
-    }
+    $('div[name=currentGrade]').html((grade/totalWeight*100).toFixed(2)+'%');
 
  }
-
 /*
   json object
   {
@@ -155,43 +149,29 @@ function deleteCategory() {
 
 */
 
-
- /**
-  * TODO: Save the data by sending it to some server
-  */
  function saveCourse() {
     console.log("saveCourse() - clicked");
     var grade = $('div[name=currentGrade]').text();
     var name = $('input[name=courseName]').val();
-    var creditNumber = $('input[name=creditNumber]').val();
+    var creditNumber = $('select[name=creditNumber] option:selected').text();
     var majorCourse = false;
     
-    // Validate Input
-    if(name == "") {
-        //print "no name" error
-        alert("Error: Enter a course name");
-        return;
-    }
-    
-    if(creditNumber == "") {
-        //print "no creditNumber" error
-        alert("Error: Enter a credit amount");
-        return;
-    }
-    else{
-        creditNumber = parseInt(creditNumber);
+    if( name == "" )
+    {
+        var promptData = prompt("Please eneter a course name", "Course-1");
 
-        if( isNaN(creditNumber) ){
-            alert("Error: Credit amount must be a number");
+        if( promptData != "" && promptData != null )
+        {
+            name = promptData;
+        }
+        else
+        {
             return;
         }
-        else if ( creditNumber < 1 || creditNumber > 4 ){
-            alert("Error: Credit amount must be within 1 - 4");
-            return;
-        }
-    }
+    }    
 
-    if( isValid == false ){
+    if( isValid == false )
+    {
         alert(errorMessage);
         return;
     }
@@ -217,7 +197,7 @@ function deleteCategory() {
         average = parseFloat( courses[i].cells[2].children[0].value );
         if(weight && average) {
             outJ.cats.push(
-                {"Name": catName ,"Weight": weight ,"Average": average }
+                {"Name": catName ,"Weight": weight ,"Average": average}
             )
         }
     }
@@ -227,6 +207,9 @@ function deleteCategory() {
         console.log("new USer course json")
         sessionStorage.setItem('newUserCourseJson', JSON.stringify(outJ));
     } else if (cnum == null) { //new course
+        if(userData.classData == null){ //no courses in new user
+            userData.classData = { "currentCourses":[] }
+        }
         userData.classData.currentCourses.push(outJ);
         sessionStorage.setItem('json', JSON.stringify(userData));
     } else { //edit existing course
@@ -234,7 +217,8 @@ function deleteCategory() {
         sessionStorage.setItem('json', JSON.stringify(userData));
     }
     console.log(cnum);
-	
+    
+    	
 	// Redirect to myGrades
     window.location.href="MyGrades.html";
  }
@@ -242,8 +226,8 @@ function deleteCategory() {
 function loadJson(data) {
     console.log(data);
     $('input[name=courseName]').val(data.Name);
-    $('input[name=creditNumber]').val(data.CreditNumber);
-    if(data.MajorCourse == 'true') {
+    $('select[name=creditNumber]').val(data.CreditNumber);
+    if(data.MajorCourse==true) {
         $('input[name=major]').attr('checked',true);
     } else {
         $('input[name=major]').attr('checked',false);

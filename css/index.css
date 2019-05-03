@@ -1,25 +1,38 @@
-.nav{
-  margin: 25px;
-  height: 75px;
-  width: 820px;
-  margin: auto;
-  background: white;
-  padding: 10px;
-  padding-top: 25px;
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color:  rgb(102, 151, 182);
+  overflow: hidden;
 }
 
-.nav li{
-  display:inline-block;
-  text-align:center;
-}
-
-.nav li button{
-  height: 75px;
-  width: 200px;
-  font-size: 22px;
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
   font-family: Futura, "Trebuchet MS", Arial, sans-serif;
-  background-color: slategrey;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  cursor: pointer;
 }
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav input:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: rgb(46, 51, 54);
+  color: white;
+}
+
 body {
   background: #555;
   font-family: Futura, "Trebuchet MS", Arial, sans-serif;
@@ -34,11 +47,15 @@ body {
 }
 
 .semesterName{
-  padding-bottom:25px;
+  font-size:20pt;
+  text-align: center;
+  font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+  margin-bottom: 20px;
+  margin-right: 20px;
 }
 
 .button {
-  background-color: rgb(97, 97, 97);
+  background-color: #496C82;
   border: 10px;
   width: 135px;
   height: 40px;
@@ -46,6 +63,8 @@ body {
   font-family: Futura, "Trebuchet MS", Arial, sans-serif;
   display:inline-block;
   color:white;
+  vertical-align: middle;
+  cursor: pointer;
 }
 
 .currentGrade{
@@ -55,75 +74,85 @@ body {
   margin: 50px;
 }
 
-  .applicationWrapper {
-      position: relative;
-      max-width: 900px;
-      margin: auto;
-      background: white;
-      padding: 10px;
-      min-height: 750px;
-  }
-
-  .container {
-    width: 900px;
-    text-align: center;
-    display:inline-block;
-  }
-
-  .deletebtn {
-    background-color: rgb(97, 97, 97);
-    border: none;
-    color: white;
-    padding: 5px 5px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-  }
-
-  .overallDisplay {
-    width: 500px;
-    text-align: center;
-    display: inline-block;
-  }
-
-  #courseInfo {
-    display: inline-block;
-    width: 500px;
-  }
-
-  .leftGPA {
-    background-color: lightgray;
-    width: 200px;
-    height: 50px;
-    margin: 10px;
-    float: left;
+.applicationWrapper {
     position: relative;
-  }
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    min-height: 800px;
+    padding-bottom: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.container {
+  width: 900px;
+  text-align: center;
+  display:inline-block;
+}
+
+.editbtn {
+  background-color: #496C82;
+  padding: 7px;
+  margin: 5px;
+  border: none;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.deletebtn {
+  border: none;
+  color: white;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+}
+
+.overallDisplay {
+  width: 500px;
+  text-align: center;
+  display: inline-block;
+}
+
+#courseInfo {
+  display: inline-block;
+  width: 500px;
+}
+
+.leftGPA {
+  background-color: lightgray;
+  width: 200px;
+  height: 50px;
+  margin: 10px;
+  float: left;
+  position: relative;
+}
 
 
-  .rightGPA {
-    background-color: lightgray;
-    text-align: center;
-    width: 200px;
-    height: 50px;
-    margin: 10px;
-    float: right;
-  }
+.rightGPA {
+  background-color: lightgray;
+  text-align: center;
+  width: 200px;
+  height: 50px;
+  margin: 10px;
+  float: right;
+}
 
-  .currentGrade {
-    background-color: lightgray;
-    text-align: center;
-    display: inline-block;
-    width: 200px;
-    height: 40px;
-    margin: 10px;
-    
-  }
+.currentGrade {
+  background-color: lightgray;
+  text-align: center;
+  display: inline-block;
+  vertical-align: middle;
+  width: 200px;
+  height: 40px;
+  margin: 10px;   
+}
 
-  .currentGradeWrapper {
-    width: 900px;
-  }
+.currentGradeWrapper{
+  margin-top: 10px;
+}
+
 
 .logo {
   margin: auto;
@@ -135,8 +164,8 @@ body {
 img {
   margin: auto;
   text-align: center;
-    width: 600px;
-  }
+  width: 600px;
+}
 
 table {
   text-align: center;
@@ -144,24 +173,28 @@ table {
 }
 
 .semesterList {
-  width: 800px;
+  width: 900px;
   text-align: center;
   display: inline-block;
-  }
-  
-
-.semester {
-margin: 50px;
-width: 800px;
-text-align: center;
-display: inline-block;
 }
-
+  
+.semester {
+  background-color: rgb(238, 238, 238);
+  margin-top: 25px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  width: 800px;
+  text-align: center;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
 
 .course {
   text-align: center;
-display: inline-block;
-width: 800px;
+  display: inline-block;
+  width: 800px;
 }
 
 #courseInfo {
@@ -176,10 +209,41 @@ width: 800px;
 }
 
 .close {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 40px;
-  height: 40px;
+  height: 39px;
+  padding: 5px; 
   float: right;
+}
+
+#grade_title_row th, #grade_info_row td{
+  padding: 4px;
+}
+
+#grade_info_row td input{
+  margin: 0px;
+}
+
+table, th, td{
+  border-collapse: collapse;
+  padding-right: 10px;
+}
+
+.semesters tr:nth-child(even), .classes tr:nth-child(even)
+{
+  background-color: rgb(142, 191, 222);
+}
+
+.semesters tr td{
+  padding: 15px;
+}
+
+.button img{
+  width: 35px;
+  height: 35px;
+  float: left;
+  padding-top: 3px; 
+}
+
+.button p {
+  padding-left: 5px;
+  float: left;
 }

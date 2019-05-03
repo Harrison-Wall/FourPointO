@@ -37,23 +37,24 @@ function loadClassData(data) {
         $('a[name=grade-' + i + ']').text(data.currentCourses[i].Grade);
 
         //print major course info and also do gpa calcualtions
-        if(data.currentCourses[i].MajorCourse=='true') {
+        if(data.currentCourses[i].MajorCourse==true) {
             $('a[name=major-' + i + ']').text("Yes");
-
-            majorGrade += (grade*credit);
+            majorGrade += ((percentToGPA(grade/100))*credit);
             majorCreditCount += credit;
         } else {
             $('a[name=major-' + i + ']').text("No");
         }
-        overallGrade += (grade*credit);
+        overallGrade += ((percentToGPA(grade/100))*credit);
         overallCreditCount += credit;
     }
 
     //calcualte and print final gpa
-    var finalMajorGrade = majorGrade/majorCreditCount;
-    var finalGrade = overallGrade/overallCreditCount;
-    $('div[name=semGPA]').text(percentToGPA(finalGrade/100));
-    $('div[name=semMajorGPA]').text(percentToGPA(finalMajorGrade/100));
+    var finalMajorGrade = (majorGrade/majorCreditCount).toFixed(2);
+    var finalGrade = (overallGrade/overallCreditCount).toFixed(2);
+    console.log("semester major percentage: " + finalMajorGrade);
+    console.log("semester percentage: " + finalGrade);
+    $('div[name=semGPA]').text(finalGrade);
+    $('div[name=semMajorGPA]').text(finalMajorGrade);
 }
 
 //calls the semester and class data loaders
@@ -64,13 +65,24 @@ function loadUserJson() {
 }
 
 function createNewUserFromSemesterJson(newUserData) {
-    var username = JSON.parse(localStorage.getItem('FourPointO:authUser'));
+    var username = JSON.parse(sessionStorage.getItem('FourPointO:authUser'));
+    var semesterData = JSON.parse(sessionStorage.getItem('newjson'));
+    if(semesterData != null) {
+        data = {
+            "UserID": username.email,
+            semesterData,
+            "classData":   
+            { "currentCourses":[] }
+        }
+    } else {
     data = {
         "UserID": username.email,
-        "semesterData": newUserData,
+        "semesterData":
+        { "semesters":[] },
         "classData":   
         { "currentCourses":[] }
     }
+}
     sessionStorage.setItem('json',JSON.stringify(data));
 }
   
@@ -86,7 +98,12 @@ function loadData() {
         //retrieve json snapshot
         firebase.database().ref('/users/' + user.uid).once('value', function(snapshot) {
             // The callback succeeded
-            sessionStorage.setItem('json', JSON.stringify(snapshot.val()));
+            var snapshot = snapshot.val()
+            if(snapshot == null) {
+                createNewUserFromSemesterJson(null);
+            } else {
+                sessionStorage.setItem('json', JSON.stringify(snapshot));
+            }
             loadUserJson();
 
         }, function(error) {
@@ -131,7 +148,8 @@ function printNewClasses(num) {
         '<td><a name="major-'+i+'"></a></td>'+
         '<td><a name="credit-'+i+'"></a></td>'+
         '<td><a name="grade-'+i+'"></a></td>'+
-        '<td><button onclick="location.href=\'GradeCalc.html?course='+i+'\';" class="deletebtn" name="editCourse-'+i+'">Edit</button></td>'+
+        '<td><button onclick="location.href=\'GradeCalc.html?course='+i+'\';" class="editbtn" name="editCourse-'+i+'">EDIT</button></td>'+
+        '<td><input class="deletebtn deleteCourse" courseNum='+i+' type="image" src="media/delete.png"></td>' +
         '</tr>'
         $(".classes").append(newTR);
     }
@@ -177,7 +195,19 @@ $('input[name=user]').on('click',function() {
     }
 });
 
-
+$('.classes').on('click','.deleteCourse',function() 
+{
+    if( confirm("Are you sure you want to delete this course?") )
+    {
+        var index = $(this).attr('courseNum');
+        var userData = JSON.parse(sessionStorage.getItem('json'));
+        $("tr[name=course-"+index+"]").remove();
+        userData.classData.currentCourses.splice(index, 1);
+        sessionStorage.setItem('json', JSON.stringify(userData));
+        curUser = firebase.auth().currentUser
+        firebase.database().ref('users/' + curUser.uid).set(userData);
+    }
+});
 
 // can be ignored, just a playground for creating JSON's
 var testUserData =
